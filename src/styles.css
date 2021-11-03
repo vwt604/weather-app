@@ -1,0 +1,53 @@
+.container {
+  border: solid 1px lightgray;
+  padding: 2% 15%;
+  margin-top: 10%;
+}
+
+.current-container {
+  text-align: center;
+  padding: 10%;
+}
+
+.left {
+  display: flex;
+  align-items: baseline;
+}
+
+.left p {
+  padding-right: 10px;
+}
+
+.sun-icon {
+  font-size: 30px;
+  color: tomato;
+}
+
+.right {
+  text-align: right;
+}
+
+.right p {
+  margin: 0;
+}
+
+.week-item {
+  border-bottom: solid 1px lightgray;
+  margin-bottom: 5%;
+  padding-bottom: 2%;
+}
+
+.temperature {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.temperature span {
+  font-size: 40px;
+}
+
+.units a {
+  font-size: 14px;
+}
