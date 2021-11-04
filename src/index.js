@@ -1,3 +1,5 @@
+let apiKey = config.API_KEY;
+
 // Display the current date and time using JavaScript
 
 let time = new Date();
@@ -25,7 +27,6 @@ let handleSearch = (event) => {
   cityHeading.innerHTML = input.value;
 
   let searchedCity = input.value;
-  let apiKey = "bdb49ae35d26b65f17ef6808d4baab94";
 
   axios
     .get(

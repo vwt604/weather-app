@@ -1,1 +1,3 @@
-# westher-app
+# weather-app
+
+A simple weather app using OpenWeather API.
