@@ -1,3 +1,3 @@
 # weather-app
 
-A simple weather app using OpenWeather API.
+A vanilla weather app using OpenWeather API.
