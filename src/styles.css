@@ -75,7 +75,7 @@ li:first-letter {
   text-transform: capitalize;
 }
 
-.temperature {
+.current-temperature {
   color: #212121;
   font-weight: 400;
   margin-left: 10px;
@@ -105,6 +105,11 @@ li:first-letter {
 
 .forecast-day {
   text-align: center;
+  margin: 0 10px;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 footer {

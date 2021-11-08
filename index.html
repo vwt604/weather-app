@@ -18,29 +18,29 @@
 <body>
   <div class="container">
     <div class="weather-app-wrapper">
-      <form>
+      <form class="weather-search" id="weather-search">
         <div class="row">
           <div class="col-9">
-            <input type="search" placeholder="Enter a city.." class="form-control search-input">
+            <input type="search" placeholder="Enter a city.." class="form-control search-input" id="search-input">
           </div>
           <div class="col-3 p-0">
             <input type="submit" class="btn btn-primary w-100 search-btn" value="Search">
           </div>
         </div>
       </form>
-      <div class="current-weather">
+      <div class="current-weather"> 
         <div class="row">
           <div class="col-6">
-            <h1>Vancouver</h1>
+            <h1 class="current-city">Vancouver</h1>
             <ul class="normal">
-              <li><span>Friday 05:00</span>, clear sky</li>
-              <li><span>Humidity: 36%</span> Wind: 3.09km/h</li>
+              <li><span class="current-time">Friday 05:00</span>, <span class="current-weather-condition">clear sky</span></li>
+              <li><span>Humidity: <span class="current-humidity">36%</span></span> Wind: <span class="current-wind">3.09km/h</span></li>
             </ul>
           </div>
           <div class="col-6">
             <div class="temperature-container d-flex justify-content-end">
               <img class="current-weather-icon" src="https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png" alt="clear" />
-              <span class="temperature">11</span>
+              <span class="current-temperature">11</span>
               <span class="unit">°C | °F</span>
             </div>
           </div>
