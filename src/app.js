@@ -1,11 +1,4 @@
 let apiKey = config.API_KEY;
-let cityElement = document.querySelector(".current-city");
-let temperatureElement = document.querySelector(".current-temperature");
-let conditionElement = document.querySelector(".current-weather-condition");
-let humidityElement = document.querySelector(".current-humidity");
-let windElement = document.querySelector(".current-wind");
-let searchForm = document.querySelector("#weather-search");
-let iconElement = document.querySelector(".current-weather-icon");
 
 // Display the current date and time using JavaScript
 let now = new Date();
@@ -17,51 +10,52 @@ let addZero = (i) => {
   }
   return i;
 };
-
 let time = now.getHours() + ":" + addZero(now.getMinutes());
-
-let timeElement = document.querySelector(".current-time");
+let timeElement = document.querySelector(".time");
 timeElement.innerHTML = day + " " + time;
 
 // Display Geolocated city time and weather by default
-
 let getCurrentLocationData = (res) => {
   let latitude = res.coords.latitude;
   let longitude = res.coords.latitude;
-  console.log(`Latitude: ${latitude}`);
-  console.log(`Longitude: ${longitude}`);
-
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
-
   axios.get(apiUrl).then(showWeatherData);
-};
-
-let showWeatherData = (res) => {
-  let rounded = Math.round(res.data.main.temp);
-  console.log(rounded);
-  temperatureElement.innerHTML = `${rounded}`;
-  cityElement.innerHTML = res.data.name;
-  conditionElement.innerHTML = res.data.weather[0].main;
-  humidityElement.innerHTML = `${res.data.main.humidity}%`;
-  windElement.innerHTML = `${res.data.wind.speed}km/h`;
-  iconElement.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${res.data.weather[0].icon}.png`
-  );
-  console.log("icon", res.data.weather[0]);
 };
 
 let getCurrentLocation = () => {
   navigator.geolocation.getCurrentPosition(getCurrentLocationData);
 };
 
+let showWeatherData = (res) => {
+  let cityElement = document.querySelector(".city");
+  let conditionElement = document.querySelector(".weather-condition");
+  let feelsLikeElement = document.querySelector(".weather-feels-like");
+  let iconElement = document.querySelector(".weather-icon");
+  let temperatureElement = document.querySelector(".temperature");
+  let rounded = (num) => Math.round(num);
+
+  temperatureElement.innerHTML = `${rounded(res.data.main.temp)}`;
+  cityElement.innerHTML = res.data.name;
+  conditionElement.innerHTML = res.data.weather[0].main;
+  feelsLikeElement.innerHTML = `${rounded(res.data.main.feels_like)}°C`;
+  iconElement.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${res.data.weather[0].icon}.png`
+  );
+};
+
 getCurrentLocation();
 
-// Update information to the searched city
-
+// Display weather information of the searched city
 let showSearchedWeather = (res) => {
-  console.log("res", res);
+  let cityElement = document.querySelector(".city");
+  let conditionElement = document.querySelector(".weather-condition");
+  let humidityElement = document.querySelector(".humidity");
+  let windElement = document.querySelector(".wind");
+  let iconElement = document.querySelector(".weather-icon");
+  let temperatureElement = document.querySelector(".temperature");
   let rounded = Math.round(res.data.main.temp);
+
   cityElement.innerHTML = res.data.name;
   temperatureElement.innerHTML = `${rounded}`;
   conditionElement.innerHTML = res.data.weather[0].main;
@@ -86,4 +80,5 @@ let handleSearch = (event) => {
     .then(showSearchedWeather);
 };
 
+let searchForm = document.querySelector("#weather-search");
 searchForm.addEventListener("submit", handleSearch);
