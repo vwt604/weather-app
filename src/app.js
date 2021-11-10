@@ -50,17 +50,15 @@ getCurrentLocation();
 let showSearchedWeather = (res) => {
   let cityElement = document.querySelector(".city");
   let conditionElement = document.querySelector(".weather-condition");
-  let humidityElement = document.querySelector(".humidity");
-  let windElement = document.querySelector(".wind");
+  let feelsLikeElement = document.querySelector(".weather-feels-like");
   let iconElement = document.querySelector(".weather-icon");
   let temperatureElement = document.querySelector(".temperature");
-  let rounded = Math.round(res.data.main.temp);
+  let rounded = (num) => Math.round(num);
 
   cityElement.innerHTML = res.data.name;
-  temperatureElement.innerHTML = `${rounded}`;
+  temperatureElement.innerHTML = `${rounded(res.data.main.temp)}`;
   conditionElement.innerHTML = res.data.weather[0].main;
-  humidityElement.innerHTML = `${res.data.main.humidity}%`;
-  windElement.innerHTML = `${res.data.wind.speed}km/h`;
+  feelsLikeElement.innerHTML = `${rounded(res.data.main.feels_like)}°C`;
   iconElement.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${res.data.weather[0].icon}.png`

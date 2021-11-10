@@ -115,6 +115,7 @@ li:first-letter {
 footer {
   margin-top: 30px;
   font-size: 0.75em;
+  text-align: center;
 }
 
 footer a {
