@@ -80,3 +80,35 @@ let handleSearch = (event) => {
 
 let searchForm = document.querySelector("#weather-search");
 searchForm.addEventListener("submit", handleSearch);
+
+//Weather forecast
+
+let showForecast = () => {
+  let forecastElement = document.querySelector("#weather-forecast");
+
+  let forecastHTML = `<div class="row justify-content-center">`;
+  let days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+  days.forEach((day) => {
+    forecastHTML =
+      forecastHTML +
+      `
+    <div class="col-2 forecast-day flex-column">
+      <span>${day}</span>
+      <img
+        class="forecasted-weather-icon"
+        src="https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png"
+        alt="clear"
+      />
+      <div class="forecast-temperature">
+        <span>11°</span>
+        <span>6°</span>
+      </div>
+    </div>
+  `;
+  });
+
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+};
+
+showForecast();
