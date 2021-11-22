@@ -108,6 +108,11 @@ li:first-letter {
   margin: 0 10px;
 }
 
+.forecasted-weather-icon {
+  width: 50px;
+  height: 50px;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -120,4 +125,5 @@ footer {
 
 footer a {
   text-decoration: none;
+  color: #885df1;
 }

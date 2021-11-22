@@ -68,7 +68,7 @@ let showForecast = (res) => {
         forecastHTML +
         `
       <div class="col-2 forecast-day flex-column">
-        <span>${formatDay(forecastDay.dt)}</span>
+        <div>${formatDay(forecastDay.dt)}</div>
         <img
           class="forecasted-weather-icon"
           src="http://openweathermap.org/img/wn/${
