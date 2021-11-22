@@ -1,4 +1,4 @@
-let apiKey = config.API_KEY;
+// let apiKey = config.API_KEY;
 
 let serverURL;
 
@@ -10,7 +10,7 @@ fetch(".netlify/functions/api")
 
 console.log("API key test");
 console.log(api);
-consolelog(serverURL);
+console.log(serverURL);
 
 // Display the current date and time using JavaScript
 let now = new Date();
