@@ -9,9 +9,9 @@ fetch(".netlify/functions/api")
   });
 
 console.log("API key test");
-console.log(api);
-console.log(serverURL);
+// console.log(api);
 console.log(process.env.WEATHER_API_KEY);
+console.log(serverURL);
 
 // Display the current date and time using JavaScript
 let now = new Date();
