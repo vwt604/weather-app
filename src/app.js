@@ -1,5 +1,15 @@
 let apiKey = config.API_KEY;
 
+let serverURL;
+
+fetch(".netlify/functions/api")
+  .then((response) => response.json())
+  .then((json) => {
+    serverURL = json.api;
+  });
+
+console.log("YOLO", process.env.WEATHER_API_KEY);
+
 // Display the current date and time using JavaScript
 let now = new Date();
 let options = { weekday: "long" };
