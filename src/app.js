@@ -23,7 +23,7 @@ const formatDay = (timestamp) => {
   return days[day];
 };
 
-//Get forecast function
+//Gets weather forecast
 const getForecast = (coords) => {
   console.log("Coords", coords);
 
@@ -33,42 +33,8 @@ const getForecast = (coords) => {
   axios.get(apiUrl).then(showForecast);
 };
 
-// Display Geolocated city time and weather by default
-let getCurrentLocationData = (res) => {
-  let latitude = res.coords.latitude;
-  let longitude = res.coords.latitude;
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
-  axios.get(apiUrl).then(showDefaultWeather);
-};
-
-let getCurrentLocation = () => {
-  navigator.geolocation.getCurrentPosition(getCurrentLocationData);
-};
-
-let showDefaultWeather = (res) => {
-  let cityElement = document.querySelector(".city");
-  let conditionElement = document.querySelector(".weather-condition");
-  let feelsLikeElement = document.querySelector(".weather-feels-like");
-  let iconElement = document.querySelector(".weather-icon");
-  let temperatureElement = document.querySelector(".temperature");
-  let rounded = (num) => Math.round(num);
-
-  temperatureElement.innerHTML = `${rounded(res.data.main.temp)}`;
-  cityElement.innerHTML = res.data.name;
-  conditionElement.innerHTML = res.data.weather[0].main;
-  feelsLikeElement.innerHTML = `${rounded(res.data.main.feels_like)}°C`;
-  iconElement.setAttribute(
-    "src",
-    `http://openweathermap.org/img/wn/${res.data.weather[0].icon}.png`
-  );
-
-  getForecast(res.data.coord);
-};
-
-getCurrentLocation();
-
-// Display weather information of the searched city
-let showSearchedWeather = (res) => {
+//Displays weather data
+let showWeather = (res) => {
   let cityElement = document.querySelector(".city");
   let conditionElement = document.querySelector(".weather-condition");
   let feelsLikeElement = document.querySelector(".weather-feels-like");
@@ -88,24 +54,7 @@ let showSearchedWeather = (res) => {
   getForecast(res.data.coord);
 };
 
-let handleSearch = (event) => {
-  event.preventDefault();
-  let input = document.querySelector("#search-input");
-
-  let searchedCity = input.value;
-
-  axios
-    .get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${searchedCity}&units=metric&appid=${apiKey}`
-    )
-    .then(showSearchedWeather);
-};
-
-let searchForm = document.querySelector("#weather-search");
-searchForm.addEventListener("submit", handleSearch);
-
-//Show weather forecast
-
+//Displays weather forecast
 let showForecast = (res) => {
   let rounded = (num) => Math.round(num);
   let forecast = res.data.daily;
@@ -122,7 +71,9 @@ let showForecast = (res) => {
         <span>${formatDay(forecastDay.dt)}</span>
         <img
           class="forecasted-weather-icon"
-          src="https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png"
+          src="http://openweathermap.org/img/wn/${
+            forecastDay.weather[0].icon
+          }.png"
           alt="clear"
         />
         <div class="forecast-temperature">
@@ -137,3 +88,29 @@ let showForecast = (res) => {
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
 };
+
+//Gets default weather data from API
+const getDefaultWeather = () => {
+  axios
+    .get(
+      `https://api.openweathermap.org/data/2.5/weather?q=Vancouver&units=metric&appid=${apiKey}`
+    )
+    .then(showWeather);
+};
+
+getDefaultWeather();
+
+//Gets searched weather data from API
+let handleSearch = (event) => {
+  event.preventDefault();
+  let input = document.querySelector("#search-input");
+  let searchedCity = input.value;
+  axios
+    .get(
+      `https://api.openweathermap.org/data/2.5/weather?q=${searchedCity}&units=metric&appid=${apiKey}`
+    )
+    .then(showWeather);
+};
+
+let searchForm = document.querySelector("#weather-search");
+searchForm.addEventListener("submit", handleSearch);
