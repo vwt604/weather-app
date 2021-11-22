@@ -14,19 +14,38 @@ let time = now.getHours() + ":" + addZero(now.getMinutes());
 let timeElement = document.querySelector(".time");
 timeElement.innerHTML = day + " " + time;
 
+//Formats date
+const formatDay = (timestamp) => {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  return days[day];
+};
+
+//Get forecast function
+const getForecast = (coords) => {
+  console.log("Coords", coords);
+
+  const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lon}&appid=${apiKey}&units=metric`;
+
+  console.log("URL", apiUrl);
+  axios.get(apiUrl).then(showForecast);
+};
+
 // Display Geolocated city time and weather by default
 let getCurrentLocationData = (res) => {
   let latitude = res.coords.latitude;
   let longitude = res.coords.latitude;
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
-  axios.get(apiUrl).then(showWeatherData);
+  axios.get(apiUrl).then(showDefaultWeather);
 };
 
 let getCurrentLocation = () => {
   navigator.geolocation.getCurrentPosition(getCurrentLocationData);
 };
 
-let showWeatherData = (res) => {
+let showDefaultWeather = (res) => {
   let cityElement = document.querySelector(".city");
   let conditionElement = document.querySelector(".weather-condition");
   let feelsLikeElement = document.querySelector(".weather-feels-like");
@@ -42,6 +61,8 @@ let showWeatherData = (res) => {
     "src",
     `http://openweathermap.org/img/wn/${res.data.weather[0].icon}.png`
   );
+
+  getForecast(res.data.coord);
 };
 
 getCurrentLocation();
@@ -63,6 +84,8 @@ let showSearchedWeather = (res) => {
     "src",
     `http://openweathermap.org/img/wn/${res.data.weather[0].icon}.png`
   );
+
+  getForecast(res.data.coord);
 };
 
 let handleSearch = (event) => {
@@ -81,34 +104,36 @@ let handleSearch = (event) => {
 let searchForm = document.querySelector("#weather-search");
 searchForm.addEventListener("submit", handleSearch);
 
-//Weather forecast
+//Show weather forecast
 
-let showForecast = () => {
+let showForecast = (res) => {
+  let rounded = (num) => Math.round(num);
+  let forecast = res.data.daily;
+  console.log("forecast:", forecast);
   let forecastElement = document.querySelector("#weather-forecast");
 
   let forecastHTML = `<div class="row justify-content-center">`;
-  let days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
-  days.forEach((day) => {
-    forecastHTML =
-      forecastHTML +
-      `
-    <div class="col-2 forecast-day flex-column">
-      <span>${day}</span>
-      <img
-        class="forecasted-weather-icon"
-        src="https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png"
-        alt="clear"
-      />
-      <div class="forecast-temperature">
-        <span>11°</span>
-        <span>6°</span>
+  forecast.forEach((forecastDay, index) => {
+    if (index < 5) {
+      forecastHTML =
+        forecastHTML +
+        `
+      <div class="col-2 forecast-day flex-column">
+        <span>${formatDay(forecastDay.dt)}</span>
+        <img
+          class="forecasted-weather-icon"
+          src="https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png"
+          alt="clear"
+        />
+        <div class="forecast-temperature">
+          <span>${rounded(forecastDay.temp.max)}°</span>
+          <span>${rounded(forecastDay.temp.min)}°</span>
+        </div>
       </div>
-    </div>
-  `;
+    `;
+    }
   });
 
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
 };
-
-showForecast();
