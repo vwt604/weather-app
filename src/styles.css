@@ -4,6 +4,7 @@ body {
     rgb(255, 235, 238) 0%,
     rgb(198, 202, 250) 83.6%
   );
+  height: 1vh;
 }
 
 .container {
