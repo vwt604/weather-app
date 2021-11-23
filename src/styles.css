@@ -1,5 +1,9 @@
 body {
-  background-color: #f9f7fe;
+  background: radial-gradient(
+    879px at 10.4% 22.3%,
+    rgb(255, 235, 238) 0%,
+    rgb(198, 202, 250) 83.6%
+  );
 }
 
 .container {

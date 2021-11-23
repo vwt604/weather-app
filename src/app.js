@@ -1,59 +1,40 @@
-// let apiKey = config.API_KEY;
-
-let serverURL;
-
-fetch(".netlify/functions/api")
-  .then((response) => response.json())
-  .then((json) => {
-    serverURL = json.api;
-  });
-
-console.log("API key test");
-// console.log(api);
-// console.log(process.env.WEATHER_API_KEY);
-console.log(serverURL);
-
 // Display the current date and time using JavaScript
-let now = new Date();
-let options = { weekday: "long" };
-let day = new Intl.DateTimeFormat("en-US", options).format(now);
-let addZero = (i) => {
+const now = new Date();
+const options = { weekday: "long" };
+const day = new Intl.DateTimeFormat("en-US", options).format(now);
+const addZero = (i) => {
   if (i < 10) {
     i = "0" + i;
   }
   return i;
 };
-let time = now.getHours() + ":" + addZero(now.getMinutes());
-let timeElement = document.querySelector(".time");
+const time = now.getHours() + ":" + addZero(now.getMinutes());
+const timeElement = document.querySelector(".time");
 timeElement.innerHTML = day + " " + time;
 
-//Formats date
 const formatDay = (timestamp) => {
-  let date = new Date(timestamp * 1000);
-  let day = date.getDay();
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const date = new Date(timestamp * 1000);
+  const day = date.getDay();
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return days[day];
 };
 
-//Gets weather forecast
+// Functions to retrieve and display weather data
 const getForecast = (coords) => {
-  console.log("Coords", coords);
-
+  const apiKey = "bdb49ae35d26b65f17ef6808d4baab94";
   const apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lon}&appid=${apiKey}&units=metric`;
 
-  console.log("URL", apiUrl);
   axios.get(apiUrl).then(showForecast);
 };
 
-//Displays weather data
-let showWeather = (res) => {
-  let cityElement = document.querySelector(".city");
-  let conditionElement = document.querySelector(".weather-condition");
-  let feelsLikeElement = document.querySelector(".weather-feels-like");
-  let iconElement = document.querySelector(".weather-icon");
-  let temperatureElement = document.querySelector(".temperature");
-  let rounded = (num) => Math.round(num);
+const showWeather = (res) => {
+  const cityElement = document.querySelector(".city");
+  const conditionElement = document.querySelector(".weather-condition");
+  const feelsLikeElement = document.querySelector(".weather-feels-like");
+  const iconElement = document.querySelector(".weather-icon");
+  const temperatureElement = document.querySelector(".temperature");
+  const rounded = (num) => Math.round(num);
 
   cityElement.innerHTML = res.data.name;
   temperatureElement.innerHTML = `${rounded(res.data.main.temp)}`;
@@ -67,12 +48,10 @@ let showWeather = (res) => {
   getForecast(res.data.coord);
 };
 
-//Displays weather forecast
-let showForecast = (res) => {
-  let rounded = (num) => Math.round(num);
-  let forecast = res.data.daily;
-  console.log("forecast:", forecast);
-  let forecastElement = document.querySelector("#weather-forecast");
+const showForecast = (res) => {
+  const rounded = (num) => Math.round(num);
+  const forecast = res.data.daily;
+  const forecastElement = document.querySelector("#weather-forecast");
 
   let forecastHTML = `<div class="row justify-content-center">`;
   forecast.forEach((forecastDay, index) => {
@@ -102,8 +81,8 @@ let showForecast = (res) => {
   forecastElement.innerHTML = forecastHTML;
 };
 
-//Gets default weather data from API
 const getDefaultWeather = () => {
+  const apiKey = "bdb49ae35d26b65f17ef6808d4baab94";
   axios
     .get(
       `https://api.openweathermap.org/data/2.5/weather?q=Vancouver&units=metric&appid=${apiKey}`
@@ -113,11 +92,11 @@ const getDefaultWeather = () => {
 
 getDefaultWeather();
 
-//Gets searched weather data from API
-let handleSearch = (event) => {
+const handleSearch = (event) => {
   event.preventDefault();
-  let input = document.querySelector("#search-input");
-  let searchedCity = input.value;
+  const apiKey = "bdb49ae35d26b65f17ef6808d4baab94";
+  const input = document.querySelector("#search-input");
+  const searchedCity = input.value;
   axios
     .get(
       `https://api.openweathermap.org/data/2.5/weather?q=${searchedCity}&units=metric&appid=${apiKey}`
@@ -125,5 +104,5 @@ let handleSearch = (event) => {
     .then(showWeather);
 };
 
-let searchForm = document.querySelector("#weather-search");
+const searchForm = document.querySelector("#weather-search");
 searchForm.addEventListener("submit", handleSearch);
